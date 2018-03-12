@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MidTermProject</string>
+    <string name="add">ADD</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="web">WEB</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="phone">Phone</string>
+    <string name="website">Website</string>
+    <string name="contact_form">Contact Form</string>
+    <string name="first_name_and_website_cannot_be_empty">First name and website cannot be empty</string>
+</resources>
