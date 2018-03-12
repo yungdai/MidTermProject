@@ -1,8 +1,6 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,7 @@ public class HomeAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(@NonNull ViewGroup viewPagerContainter, int position) {
+    public Object instantiateItem(ViewGroup viewPagerContainter, int position) {
         // set the position fo the page to the position set by the home adaptor
         HomeAdapterPage page = pages.get(position);
 
@@ -37,7 +35,7 @@ public class HomeAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(@NonNull ViewGroup viewPagerContainer, int position, @NonNull Object pageViewObject) {
+    public void destroyItem(ViewGroup viewPagerContainer, int position,Object pageViewObject) {
         viewPagerContainer.removeView((View) pageViewObject);
     }
 
@@ -46,14 +44,13 @@ public class HomeAdapter extends PagerAdapter {
         return  pages.size();
     }
 
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return pages.get(position).getTitle();
     }
 
     @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+    public boolean isViewFromObject(View view, Object object) {
         return object == view;
     }
 }

@@ -36,7 +36,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-//    make sure we add the following to allow for recyclerView and eventBus
+    // make sure we add the following to allow for recyclerView and eventBus
     implementation "com.android.support:recyclerview-v7:27.1.0"
     implementation "org.greenrobot:eventbus:3.1.1"
 }

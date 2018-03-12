@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -34,6 +35,8 @@ public class Contact extends ScrollView {
     private TextView website;
 
     private ContactModel mContactModel;
+
+    // anyone with a negative positions is going to be ignored.
     private int contactModelPosition = -1;
 
     public Contact(Context context) { super(context); }
@@ -91,6 +94,11 @@ public class Contact extends ScrollView {
             public void onClick(View v) {
                 // put null as contact so nothing will be added or updated
                 EventBus.getDefault().post(new OnContactUpdatedEvent(null, -1));
+
+                // reset UI
+                mContactModel = null;
+                contactModelPosition = -1;
+                updateUI();
             }
         });
 
@@ -127,8 +135,6 @@ public class Contact extends ScrollView {
                     contactModelPosition = -1;
                     updateUI();
                 }
-
-
             }
         });
 

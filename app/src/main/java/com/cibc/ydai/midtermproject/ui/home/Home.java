@@ -24,6 +24,7 @@ public class Home extends ViewPager {
     private static final int POSITION_CONTACTS = 0;
     private static final int POSITION_CONTACT = 1;
 
+
     // create a context of Home with out attributeSets
     public Home(Context context) { this(context, null); }
 
@@ -51,7 +52,7 @@ public class Home extends ViewPager {
         // set the two pages
         List<HomeAdapterPage> pages = new ArrayList<>(2);
         pages.add(POSITION_CONTACTS, new HomeAdapterPage(R.layout.home_contacts, "Contacts"));
-        pages.add(POSITION_CONTACT, new HomeAdapterPage(R.layout.home_contact, "Contacts"));
+        pages.add(POSITION_CONTACT, new HomeAdapterPage(R.layout.home_contact, "Contact Form"));
 
         // and set the adapter
         setAdapter(new HomeAdapter(getContext(), pages));
