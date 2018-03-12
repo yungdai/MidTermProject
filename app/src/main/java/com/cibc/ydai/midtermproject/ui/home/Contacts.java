@@ -1,14 +1,12 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.ContextMenu;
 import android.view.View;
 import android.widget.Button;
 
