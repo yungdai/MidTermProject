@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
@@ -129,8 +130,12 @@ public class Contact extends ScrollView {
                     // update was definitely called from a user action rather swiping blindly
                     // from the first pag
 
+                    // convert the imageView to a bitmap to save in the bundle
+                    BitmapDrawable drawable = (BitmapDrawable) mImageView.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+
                     mContactModel = new ContactModel(firstNameValue, lastName.getText().toString(),
-                            phone.getText().toString(), websiteValue, mImageView.getDrawingCache());
+                            phone.getText().toString(), websiteValue, bitmap);
 
                     // dispatch the event with the updated contact and it's position
                     EventBus.getDefault().post(new OnContactUpdatedEvent(mContactModel, contactModelPosition));
@@ -146,11 +151,8 @@ public class Contact extends ScrollView {
         Button takePicture = findViewById(R.id.take_picture);
         takePicture.setOnClickListener(v -> {
 
-            // create intent to cap()ture an image
-
-            ((onPictureTaken)getContext()).onPictureTaken(mImageView);
-
-
+            // use an interfact that delegated to the AppActivity to take the picture as it must be done from the Activity object
+            ((pictureMethods)getContext()).onPictureTaken(mImageView);
 
         });
 
@@ -170,6 +172,7 @@ public class Contact extends ScrollView {
             lastNameValue = mContactModel.getLastName();
             phoneValue = mContactModel.getPhone();
             websiteValue = mContactModel.getWebsite();
+            mImageView.setImageBitmap(mContactModel.getImage());
 
         }
 
@@ -177,6 +180,10 @@ public class Contact extends ScrollView {
         lastName.setText(lastNameValue);
         phone.setText(phoneValue);
         website.setText(websiteValue);
+
+        // create intent to capture an image
+        ((pictureMethods)getContext()).getDefaultImage(mImageView);
+
     }
 
     @Override
@@ -193,9 +200,8 @@ public class Contact extends ScrollView {
         EventBus.getDefault().unregister(this);
     }
 
-
-
-    public interface onPictureTaken {
+    public interface pictureMethods {
          void onPictureTaken(ImageView imageView);
+         void getDefaultImage(ImageView imageView);
     }
 }

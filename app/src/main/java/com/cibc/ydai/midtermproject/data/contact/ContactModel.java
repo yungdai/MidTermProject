@@ -1,11 +1,15 @@
 package com.cibc.ydai.midtermproject.data.contact;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by yungdai on 2018-03-12.
@@ -17,9 +21,7 @@ public class ContactModel {
     private static final String LAST_NAME = "lastName";
     private static final String PHONE = "phone";
     private static final String WEBSITE = "website";
-    private static final String IMAGE = "image";
-
-    private static Bitmap image = null;
+    private static final String IMAGE = "Image";
 
     @NonNull private final Bundle mBundle;
 
@@ -33,8 +35,6 @@ public class ContactModel {
         mBundle.putString(PHONE, phone);
         mBundle.putString(WEBSITE, website);
         mBundle.putParcelable(IMAGE, image);
-
-        this.image = image;
     }
 
     /**
@@ -54,12 +54,17 @@ public class ContactModel {
 
             return false;
         }
+
+
     }
 
     public String getFirstName() { return mBundle.getString(FIRST_NAME, ""); }
     public String getLastName() { return mBundle.getString(LAST_NAME, ""); }
     public String getPhone() { return mBundle.getString(PHONE, ""); }
     public String getWebsite() { return mBundle.getString(WEBSITE, ""); }
-    public Bitmap getImage() { return image; }
+    public Bitmap getImage() {
+
+        return mBundle.getParcelable(IMAGE); }
+
 
 }

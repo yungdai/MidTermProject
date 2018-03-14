@@ -14,15 +14,16 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.cibc.ydai.midtermproject.ui.home.Contact;
-
-import java.util.ArrayList;
+import com.cibc.ydai.midtermproject.ui.home.ContactsCellHolder;
 
 
 /**
  * Created by yungdai on 2018-03-12.
  */
 
-public class AppActivity extends AppCompatActivity implements Contact.onPictureTaken {
+
+// the implimentation makes a strict implimentation that only Contact can use for onPictureTaken.
+public class AppActivity extends AppCompatActivity implements Contact.pictureMethods {
 
     // Set intent key for the camera request
     private static final int CAMERA_REQUEST = 10000;
@@ -66,7 +67,12 @@ public class AppActivity extends AppCompatActivity implements Contact.onPictureT
         mImageView = imageView;
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    }
 
+    public void getDefaultImage(ImageView imageView) {
+
+        mImageView = imageView;
+        mImageView.setImageDrawable(getDrawable(android.R.drawable.ic_menu_camera));
     }
 
 
@@ -76,6 +82,8 @@ public class AppActivity extends AppCompatActivity implements Contact.onPictureT
         setContentView(R.layout.appactivity);
     }
 
+
+    // when you get an activity back from the camera intent
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
