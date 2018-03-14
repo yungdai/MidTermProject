@@ -75,7 +75,8 @@ public class Contacts extends ConstraintLayout {
         add = findViewById(R.id.add);
         add.setOnClickListener(v -> {
             // send to the event bus that there is a need to create a new contact
-            ContactModel emptyContact = new ContactModel("","","","");
+            // NOTE: Because the image is an object you must initilalised it as an empty image
+            ContactModel emptyContact = new ContactModel("","","","", null);
 
             // post to the default event bus a new OnContactEvent with an empty contact at position that's not visible (-1)
             EventBus.getDefault().post(new OnContactEvent(emptyContact, -1));
