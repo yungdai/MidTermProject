@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.cibc.ydai.midtermproject"
         minSdkVersion 21
@@ -17,6 +17,7 @@ android {
     }
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -35,8 +36,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-//    make sure we add the following to allow for recyclerView and eventBus
-    implementation "com.android.support:recyclerview-v7:27.1.0"
-    implementation "org.greenrobot:eventbus:3.1.1"
+    // make sure we add the following to allow for recyclerView and eventBus
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

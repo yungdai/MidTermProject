@@ -9,6 +9,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by yungdai on 2018-03-12.
@@ -48,6 +50,8 @@ public class AppActivity extends AppCompatActivity {
             inputMethodManager.showSoftInput(view, 0);
         }
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
