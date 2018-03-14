@@ -54,17 +54,13 @@ public class ContactModel {
 
             return false;
         }
-
-
     }
 
     public String getFirstName() { return mBundle.getString(FIRST_NAME, ""); }
     public String getLastName() { return mBundle.getString(LAST_NAME, ""); }
     public String getPhone() { return mBundle.getString(PHONE, ""); }
     public String getWebsite() { return mBundle.getString(WEBSITE, ""); }
-    public Bitmap getImage() {
-
-        return mBundle.getParcelable(IMAGE); }
+    public Bitmap getImage() { return mBundle.getParcelable(IMAGE); }
 
 
 }

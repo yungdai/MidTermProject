@@ -1,32 +1,18 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.cibc.ydai.midtermproject.App;
-import com.cibc.ydai.midtermproject.AppActivity;
 import com.cibc.ydai.midtermproject.R;
 import com.cibc.ydai.midtermproject.data.contact.ContactModel;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactEvent;
-
 import org.greenrobot.eventbus.EventBus;
 
-import java.net.URL;
-import java.security.AccessControlContext;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by yungdai on 2018-03-12.

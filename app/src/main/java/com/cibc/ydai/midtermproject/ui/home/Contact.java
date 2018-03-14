@@ -75,7 +75,6 @@ public class Contact extends ScrollView {
         website = findViewById(R.id.website);
         mImageView = findViewById(R.id.picture);
 
-
         Button web = findViewById(R.id.web);
         web.setOnClickListener(v -> {
             String webAddress = website.getText().toString();
@@ -96,7 +95,6 @@ public class Contact extends ScrollView {
 
         Button cancel = findViewById(R.id.cancel);
         cancel.setOnClickListener(v -> {
-
 
             // put null as contact so nothing will be added or updated
             EventBus.getDefault().post(new OnContactUpdatedEvent(null, -1));
@@ -165,6 +163,9 @@ public class Contact extends ScrollView {
         String lastNameValue = "";
         String phoneValue = "";
         String websiteValue = "";
+        ImageView imageViewValue = new ImageView(getContext());
+
+
 
         // if there is a contact model then just fill in the values with the values of the mContactModel
         if (mContactModel != null) {
@@ -172,8 +173,13 @@ public class Contact extends ScrollView {
             lastNameValue = mContactModel.getLastName();
             phoneValue = mContactModel.getPhone();
             websiteValue = mContactModel.getWebsite();
-            mImageView.setImageBitmap(mContactModel.getImage());
 
+            if (mContactModel.getImage() != null) {
+                imageViewValue.setImageBitmap(mContactModel.getImage());
+            }
+        } else {
+            // set the defaul image to the imageViewValue
+            ((pictureMethods)getContext()).getDefaultImage(imageViewValue);
         }
 
         firstName.setText(firstNameValue);
@@ -181,9 +187,11 @@ public class Contact extends ScrollView {
         phone.setText(phoneValue);
         website.setText(websiteValue);
 
-        // create intent to capture an image
-        ((pictureMethods)getContext()).getDefaultImage(mImageView);
+        // set the imageView to the one that's right for it
+        BitmapDrawable drawable = (BitmapDrawable) imageViewValue.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
 
+        mImageView.setImageBitmap(bitmap);
     }
 
     @Override
