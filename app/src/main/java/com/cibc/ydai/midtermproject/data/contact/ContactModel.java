@@ -1,5 +1,6 @@
 package com.cibc.ydai.midtermproject.data.contact;
 
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,18 +17,24 @@ public class ContactModel {
     private static final String LAST_NAME = "lastName";
     private static final String PHONE = "phone";
     private static final String WEBSITE = "website";
+    private static final String IMAGE = "image";
 
-   @NonNull private final Bundle mBundle;
+    private static Bitmap image = null;
+
+    @NonNull private final Bundle mBundle;
 
 
     // class initialiser
-    public ContactModel(String firstName, String lastName, String phone, String website) {
+    public ContactModel(String firstName, String lastName, String phone, String website, Bitmap image) {
 
         mBundle = new Bundle();
         mBundle.putString(FIRST_NAME, firstName);
         mBundle.putString(LAST_NAME, lastName);
         mBundle.putString(PHONE, phone);
         mBundle.putString(WEBSITE, website);
+        mBundle.putParcelable(IMAGE, image);
+
+        this.image = image;
     }
 
     /**
@@ -53,4 +60,6 @@ public class ContactModel {
     public String getLastName() { return mBundle.getString(LAST_NAME, ""); }
     public String getPhone() { return mBundle.getString(PHONE, ""); }
     public String getWebsite() { return mBundle.getString(WEBSITE, ""); }
+    public Bitmap getImage() { return image; }
+
 }

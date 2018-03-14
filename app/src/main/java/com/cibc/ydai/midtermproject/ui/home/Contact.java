@@ -1,10 +1,14 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,15 +31,19 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class Contact extends ScrollView {
 
+
+
     private TextView firstName;
     private TextView lastName;
     private TextView phone;
     private TextView website;
+    private ImageView mImageView;
 
     private ContactModel mContactModel;
 
     // anyone with a negative positions is going to be ignored.
     private int contactModelPosition = -1;
+
 
     public Contact(Context context) { super(context); }
     public Contact(Context context, AttributeSet attrs) { this(context, attrs, 0);}
@@ -64,6 +72,8 @@ public class Contact extends ScrollView {
         lastName = findViewById(R.id.lastName);
         phone = findViewById(R.id.phone);
         website = findViewById(R.id.website);
+        mImageView = findViewById(R.id.picture);
+
 
         Button web = findViewById(R.id.web);
         web.setOnClickListener(v -> {
@@ -102,23 +112,25 @@ public class Contact extends ScrollView {
             String websiteValue = website.getText().toString();
 
 
-
             if (firstNameValue.isEmpty() || websiteValue.isEmpty()) {
                 // empty value for "firstName" or "website"
-
-
                 Toast
                         .makeText(getContext(), getContext().getText(R.string.first_name_and_website_cannot_be_empty), Toast.LENGTH_SHORT)
                         .show();
             }
             else {
 
+                // In case you swiped over instead of pressed the add user button.
+                if (mContactModel == null) {
+                    mContactModel = new ContactModel("","","","",null);
+                }
+
                 if (mContactModel != null) {
-                    // update was definetly called from a user action rather swiping blindly
-                    // from the first page
+                    // update was definitely called from a user action rather swiping blindly
+                    // from the first pag
 
                     mContactModel = new ContactModel(firstNameValue, lastName.getText().toString(),
-                            phone.getText().toString(), websiteValue);
+                            phone.getText().toString(), websiteValue, mImageView.getDrawingCache());
 
                     // dispatch the event with the updated contact and it's position
                     EventBus.getDefault().post(new OnContactUpdatedEvent(mContactModel, contactModelPosition));
@@ -129,6 +141,17 @@ public class Contact extends ScrollView {
                 contactModelPosition = -1;
                 updateUI();
             }
+        });
+
+        Button takePicture = findViewById(R.id.take_picture);
+        takePicture.setOnClickListener(v -> {
+
+            // create intent to cap()ture an image
+
+            ((onPictureTaken)getContext()).onPictureTaken(mImageView);
+
+
+
         });
 
     }
@@ -147,6 +170,7 @@ public class Contact extends ScrollView {
             lastNameValue = mContactModel.getLastName();
             phoneValue = mContactModel.getPhone();
             websiteValue = mContactModel.getWebsite();
+
         }
 
         firstName.setText(firstNameValue);
@@ -167,5 +191,11 @@ public class Contact extends ScrollView {
         super.onDetachedFromWindow();
 
         EventBus.getDefault().unregister(this);
+    }
+
+
+
+    public interface onPictureTaken {
+         void onPictureTaken(ImageView imageView);
     }
 }

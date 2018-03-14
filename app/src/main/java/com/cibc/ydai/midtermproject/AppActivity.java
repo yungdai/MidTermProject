@@ -2,12 +2,18 @@ package com.cibc.ydai.midtermproject;
 
 import android.content.Context;
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
+
+import com.cibc.ydai.midtermproject.ui.home.Contact;
 
 import java.util.ArrayList;
 
@@ -16,7 +22,11 @@ import java.util.ArrayList;
  * Created by yungdai on 2018-03-12.
  */
 
-public class AppActivity extends AppCompatActivity {
+public class AppActivity extends AppCompatActivity implements Contact.onPictureTaken {
+
+    // Set intent key for the camera request
+    private static final int CAMERA_REQUEST = 10000;
+    private ImageView mImageView;
 
     public static void hideKeyboard(Context context) {
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -52,10 +62,24 @@ public class AppActivity extends AppCompatActivity {
     }
 
 
+    public void onPictureTaken(ImageView imageView) {
+        mImageView = imageView;
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appactivity);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            mImageView.setImageBitmap(photo);
+        }
     }
 }

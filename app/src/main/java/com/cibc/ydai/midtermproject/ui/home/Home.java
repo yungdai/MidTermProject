@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
 import com.cibc.ydai.midtermproject.R;
+import com.cibc.ydai.midtermproject.data.contact.ContactModel;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactEvent;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactUpdatedEvent;
 
@@ -36,6 +37,7 @@ public class Home extends ViewPager {
     // these two subscribed events are created in the events folder
     @Subscribe
     public void onEventBus(OnContactEvent onContactEvent) {
+
         // move to the second page of contacts
         setCurrentItem(POSITION_CONTACT);
     }

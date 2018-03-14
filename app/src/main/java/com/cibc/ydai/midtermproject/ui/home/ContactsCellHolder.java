@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cibc.ydai.midtermproject.R;
@@ -30,6 +31,7 @@ class ContactsCellHolder extends RecyclerView.ViewHolder {
     private TextView phoneNumberText;
     private Button openWebsite;
     private ContactModel mContactModel;
+    private ImageView mImageView;
 
     ContactsCellHolder(ViewGroup recyclerView) {
         super(LayoutInflater.from(recyclerView.getContext()).inflate(R.layout.home_contacts_cell, recyclerView, false));
@@ -38,6 +40,7 @@ class ContactsCellHolder extends RecyclerView.ViewHolder {
         nameText = itemView.findViewById(R.id.name_text);
         phoneNumberText = itemView.findViewById(R.id.phoneNumber_text);
         openWebsite = itemView.findViewById(R.id.open_website);
+        mImageView = itemView.findViewById(R.id.picture);
 
         // set it so if you click the view itself to go to the contact
         nameText.setOnClickListener(v -> {
@@ -79,6 +82,7 @@ class ContactsCellHolder extends RecyclerView.ViewHolder {
             String phoneNumberValue = contactModel.getPhone();
             nameText.setText(nameValue);
             phoneNumberText.setText(phoneNumberValue);
+            mImageView.setImageBitmap(contactModel.getImage());
         }
     }
 }
