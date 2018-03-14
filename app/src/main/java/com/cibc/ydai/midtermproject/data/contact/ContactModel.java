@@ -1,7 +1,10 @@
 package com.cibc.ydai.midtermproject.data.contact;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 /**
  * Created by yungdai on 2018-03-12.

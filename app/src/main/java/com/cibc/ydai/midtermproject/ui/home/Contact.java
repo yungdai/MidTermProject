@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -69,18 +67,18 @@ public class Contact extends ScrollView {
 
         Button web = findViewById(R.id.web);
         web.setOnClickListener(v -> {
-            String websiteValue = website.getText().toString();
+            String webAddress = website.getText().toString();
 
-            if (!websiteValue.isEmpty()) {
+            if (!webAddress.isEmpty()) {
                 // this is a URL
 
-                if (!websiteValue.startsWith("http://")) {
+                if (!webAddress.startsWith("http://")) {
                     // append http:// to the begining of the url name if it's not there
-                    websiteValue = "http://" + websiteValue;
+                    webAddress = String.format("http://%s;", webAddress);
                 }
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(websiteValue));
+                intent.setData(Uri.parse(webAddress));
                 getContext().startActivity(intent);
             }
         });
