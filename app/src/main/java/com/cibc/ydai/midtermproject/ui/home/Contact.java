@@ -104,6 +104,7 @@ public class Contact extends ScrollView {
             String websiteValue = website.getText().toString();
 
 
+
             if (firstNameValue.isEmpty() || websiteValue.isEmpty()) {
                 // empty value for "firstName" or "website"
 
@@ -113,16 +114,17 @@ public class Contact extends ScrollView {
                         .show();
             }
             else {
+
                 if (mContactModel != null) {
                     // update was definetly called from a user action rather swiping blindly
                     // from the first page
 
                     mContactModel = new ContactModel(firstNameValue, lastName.getText().toString(),
                             phone.getText().toString(), websiteValue);
-                }
 
-                // dispatch the event with the updated contact and it's position
-                EventBus.getDefault().post(new OnContactUpdatedEvent(mContactModel, contactModelPosition));
+                    // dispatch the event with the updated contact and it's position
+                    EventBus.getDefault().post(new OnContactUpdatedEvent(mContactModel, contactModelPosition));
+                }
 
                 // reset UI
                 mContactModel = null;
@@ -155,4 +157,17 @@ public class Contact extends ScrollView {
         website.setText(websiteValue);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -23,14 +23,13 @@ class ContactsCellHolder extends RecyclerView.ViewHolder {
     ContactsCellHolder(ViewGroup recyclerView) {
         super(LayoutInflater.from(recyclerView.getContext()).inflate(R.layout.home_contacts_cell, recyclerView, false));
 
-        text = (TextView) itemView;
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mContactModel != null) {
-                    // dispatch blindly the model and it's position
-                    EventBus.getDefault().post(new OnContactEvent(mContactModel, getAdapterPosition()));
-                }
+        text = itemView.findViewById(R.id.text);
+
+        text.setOnClickListener(v -> {
+            if (mContactModel != null) {
+
+                // dispatch blindly the model and it's position
+                EventBus.getDefault().post(new OnContactEvent(mContactModel, getAdapterPosition()));
             }
         });
     }

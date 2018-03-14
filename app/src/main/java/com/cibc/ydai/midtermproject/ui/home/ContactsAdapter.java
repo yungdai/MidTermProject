@@ -15,6 +15,7 @@ import java.util.List;
  */
 
 class ContactsAdapter extends RecyclerView.Adapter<ContactsCellHolder> {
+
     final List<ContactModel> contacts;
 
     ContactsAdapter() {
@@ -26,6 +27,8 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsCellHolder> {
         return new ContactsCellHolder(recyclerView);
     }
 
+
+    // these are the two important methods to bind the data to teh cells.
     @Override
     public void onBindViewHolder(ContactsCellHolder holder, int position) {
         holder.bind(contacts.get(position));
