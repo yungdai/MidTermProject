@@ -1,24 +1,18 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.cibc.ydai.midtermproject.AppActivity;
 import com.cibc.ydai.midtermproject.R;
 import com.cibc.ydai.midtermproject.Utilities.Utilities;
 import com.cibc.ydai.midtermproject.data.contact.ContactModel;
@@ -96,7 +90,6 @@ public class Contact extends ScrollView {
         edit.setOnClickListener(v -> {
 
             toggleVisibility();
-
         });
 
         Button web = findViewById(R.id.web);
@@ -117,6 +110,22 @@ public class Contact extends ScrollView {
             }
         });
 
+        // set it so that the first name and last name are capitalised
+        firstName.setOnFocusChangeListener(
+                (v, hasFocus) -> {
+                    if (!hasFocus) {
+                        Utilities.capitaliseFirtCharacterIn(firstName);
+                    }
+                }
+        );
+
+        lastName.setOnFocusChangeListener(
+                (v, hasFocus) -> {
+                    if (!hasFocus) {
+                        Utilities.capitaliseFirtCharacterIn(firstName);
+                    }
+                }
+        );
 
         cancel.setOnClickListener(v -> {
 
@@ -129,8 +138,8 @@ public class Contact extends ScrollView {
             updateUI();
         });
 
-
         update.setOnClickListener(v -> {
+
             String firstNameValue = firstName.getText().toString();
             String websiteValue = website.getText().toString();
 
@@ -198,11 +207,11 @@ public class Contact extends ScrollView {
         });
     }
 
-
     //region help methods
     // update the UI from contactModel
+
     private void updateUI() {
-        // defaul everything to nothing or empty
+        // default everything to nothing or empty
         String firstNameValue = "";
         String lastNameValue = "";
         String phoneValue = "";
@@ -221,6 +230,9 @@ public class Contact extends ScrollView {
 
             if (mContactModel.getImage() != null) {
                 imageViewValue.setImageBitmap(mContactModel.getImage());
+            } else {
+                // set the default image to the imageViewValue
+                ((pictureMethods)getContext()).getDefaultImage(imageViewValue);
             }
         } else {
             // set the default image to the imageViewValue
@@ -264,7 +276,7 @@ public class Contact extends ScrollView {
         takePicture.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.VISIBLE);
         update.setVisibility(View.VISIBLE);
-        formTitle.setText("CONTACT FORM");
+        formTitle.setText("Contact Form");
     }
 
     private void setEdittingOff() {

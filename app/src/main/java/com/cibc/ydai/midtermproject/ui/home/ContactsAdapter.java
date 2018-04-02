@@ -28,7 +28,7 @@ class ContactsAdapter extends RecyclerView.Adapter<ContactsCellHolder> {
     }
 
 
-    // these are the two important methods to bind the data to teh cells.
+    // these are the two important methods to bind the data to the cells.
     @Override
     public void onBindViewHolder(ContactsCellHolder holder, int position) {
         holder.bind(contacts.get(position));

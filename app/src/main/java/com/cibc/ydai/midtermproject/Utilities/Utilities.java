@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.cibc.ydai.midtermproject.AppActivity;
 
@@ -44,5 +45,13 @@ public class Utilities extends AppActivity {
         if (inputMethodManager != null) {
             inputMethodManager.showSoftInput(view, 0);
         }
+    }
+
+    public static void capitaliseFirtCharacterIn(TextView textView) {
+
+        String upcasedText = textView.getText().toString();
+        upcasedText = upcasedText.substring(0,1).toUpperCase() + upcasedText.substring(1).toLowerCase();
+
+        textView.setText(upcasedText);
     }
 }
