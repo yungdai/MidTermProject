@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.cibc.ydai.midtermproject.AppActivity;
 import com.cibc.ydai.midtermproject.R;
+import com.cibc.ydai.midtermproject.Utilities.Utilities;
 import com.cibc.ydai.midtermproject.data.contact.ContactModel;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactEvent;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactUpdatedEvent;
@@ -44,7 +45,7 @@ public class Contacts extends ConstraintLayout {
     public void onEventBusEvent(OnContactUpdatedEvent event) {
 
         // hide the keybaord when you get notified onContactUpdateEvent
-        AppActivity.hideKeyboard(getContext());
+        Utilities.hideKeyboard(getContext());
 
         if (event.mContactModel != null) {
 
@@ -79,7 +80,7 @@ public class Contacts extends ConstraintLayout {
             ContactModel emptyContact = new ContactModel("","","","", null);
 
             // post to the default event bus a new OnContactEvent with an empty contact at position that's not visible (-1)
-            EventBus.getDefault().post(new OnContactEvent(emptyContact, -1));
+            EventBus.getDefault().post(new OnContactEvent(emptyContact, -1, true, true));
         });
 
         // have the contact adapter set up the recycler view

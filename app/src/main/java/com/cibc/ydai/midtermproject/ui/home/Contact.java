@@ -8,7 +8,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.cibc.ydai.midtermproject.AppActivity;
 import com.cibc.ydai.midtermproject.R;
+import com.cibc.ydai.midtermproject.Utilities.Utilities;
 import com.cibc.ydai.midtermproject.data.contact.ContactModel;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactEvent;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactUpdatedEvent;
@@ -32,19 +35,24 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class Contact extends ScrollView {
 
-
-
     private TextView firstName;
     private TextView lastName;
     private TextView phone;
     private TextView website;
     private ImageView mImageView;
+    private TextView formTitle;
+    private Button takePicture;
+    private Button cancel;
+    private Button update;
+    private Button edit;
 
+    // the contact model that is passed or not passed in from the event bus
     private ContactModel mContactModel;
-
+    // check to see if you are editing or not
+    private Boolean isEditing = false;
+    private Boolean isCreatingContact = false;
     // anyone with a negative positions is going to be ignored.
     private int contactModelPosition = -1;
-
 
     public Contact(Context context) { super(context); }
     public Contact(Context context, AttributeSet attrs) { this(context, attrs, 0);}
@@ -56,10 +64,12 @@ public class Contact extends ScrollView {
     public void onEventBusEvent(OnContactEvent onContactEvent) {
         this.mContactModel = onContactEvent.mContactModel;
         this.contactModelPosition = onContactEvent.contactModelPosition;
+        this.isEditing = onContactEvent.isEditing;
+        this.isCreatingContact = onContactEvent.isCreatingContact;
 
         updateUI();
 
-        AppActivity.showKeyboard(getContext(), firstName);
+        Utilities.showKeyboard(getContext(), firstName);
     }
 
     @Override
@@ -74,6 +84,20 @@ public class Contact extends ScrollView {
         phone = findViewById(R.id.phone);
         website = findViewById(R.id.website);
         mImageView = findViewById(R.id.picture);
+        formTitle = findViewById(R.id.title);
+
+        takePicture = findViewById(R.id.take_picture);
+        cancel = findViewById(R.id.cancel);
+        update = findViewById(R.id.update);
+
+
+
+        edit = findViewById(R.id.edit_button);
+        edit.setOnClickListener(v -> {
+
+            toggleVisibility();
+
+        });
 
         Button web = findViewById(R.id.web);
         web.setOnClickListener(v -> {
@@ -93,7 +117,7 @@ public class Contact extends ScrollView {
             }
         });
 
-        Button cancel = findViewById(R.id.cancel);
+
         cancel.setOnClickListener(v -> {
 
             // put null as contact so nothing will be added or updated
@@ -105,7 +129,7 @@ public class Contact extends ScrollView {
             updateUI();
         });
 
-        Button update = findViewById(R.id.update);
+
         update.setOnClickListener(v -> {
             String firstNameValue = firstName.getText().toString();
             String websiteValue = website.getText().toString();
@@ -146,7 +170,6 @@ public class Contact extends ScrollView {
             }
         });
 
-        Button takePicture = findViewById(R.id.take_picture);
         takePicture.setOnClickListener(v -> {
 
             // use an interfact that delegated to the AppActivity to take the picture as it must be done from the Activity object
@@ -156,6 +179,8 @@ public class Contact extends ScrollView {
 
     }
 
+
+    //region help methods
     // update the UI from contactModel
     private void updateUI() {
         // defaul everything to nothing or empty
@@ -165,7 +190,8 @@ public class Contact extends ScrollView {
         String websiteValue = "";
         ImageView imageViewValue = new ImageView(getContext());
 
-
+        setContactEditiability();
+        setupEditButtonVisibility();
 
         // if there is a contact model then just fill in the values with the values of the mContactModel
         if (mContactModel != null) {
@@ -193,6 +219,88 @@ public class Contact extends ScrollView {
 
         mImageView.setImageBitmap(bitmap);
     }
+
+    private void setEditingOn() {
+
+        firstName.setFocusable(true);
+        firstName.setFocusableInTouchMode(true);
+        firstName.setClickable(true);
+
+        lastName.setFocusable(true);
+        lastName.setFocusableInTouchMode(true);
+        lastName.setClickable(true);
+
+        phone.setFocusable(true);
+        phone.setFocusableInTouchMode(true);
+        phone.setClickable(true);
+
+        website.setFocusable(true);
+        website.setFocusableInTouchMode(true);
+        website.setClickable(true);
+
+        mImageView.setFocusable(true);
+        mImageView.setFocusableInTouchMode(true);
+        mImageView.setClickable(true);
+
+        takePicture.setVisibility(View.VISIBLE);
+        cancel.setVisibility(View.VISIBLE);
+        update.setVisibility(View.VISIBLE);
+        formTitle.setText("CONTACT FORM");
+    }
+
+    private void setEdittingOff() {
+
+        firstName.setFocusable(false);
+        firstName.setFocusableInTouchMode(false);
+        firstName.setClickable(false);
+
+        lastName.setFocusable(false);
+        lastName.setFocusableInTouchMode(false);
+        lastName.setClickable(false);
+
+        phone.setFocusable(false);
+        phone.setFocusableInTouchMode(false);
+        phone.setClickable(false);
+
+        website.setFocusable(false);
+        website.setFocusableInTouchMode(false);
+        website.setClickable(false);
+
+        mImageView.setFocusable(false);
+        mImageView.setFocusableInTouchMode(false);
+        mImageView.setClickable(false);
+
+        takePicture.setVisibility(View.INVISIBLE);
+        cancel.setVisibility(View.INVISIBLE);
+        update.setVisibility(View.INVISIBLE);
+        formTitle.setText("Contact");
+    }
+
+    private void toggleVisibility() {
+
+        isEditing = !isEditing;
+        setContactEditiability();
+    }
+
+    private void setContactEditiability(){
+
+        if (isEditing == true) {
+            setEditingOn();
+        } else {
+
+            setEdittingOff();
+        }
+    }
+
+    private void setupEditButtonVisibility() {
+
+        if (isCreatingContact == true) {
+            edit.setVisibility(View.INVISIBLE);
+        } else {
+            edit.setVisibility(View.VISIBLE);
+        }
+    }
+    //endregion
 
     @Override
     protected void onAttachedToWindow() {

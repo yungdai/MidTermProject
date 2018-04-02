@@ -40,7 +40,7 @@ public class ContactsCellHolder extends RecyclerView.ViewHolder   {
             if (mContactModel != null) {
 
                 // dispatch blindly the model and it's position
-                EventBus.getDefault().post(new OnContactEvent(mContactModel, getAdapterPosition()));
+                EventBus.getDefault().post(new OnContactEvent(mContactModel, getAdapterPosition(), false, false));
             }
         });
 
