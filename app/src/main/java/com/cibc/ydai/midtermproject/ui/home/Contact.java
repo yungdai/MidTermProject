@@ -1,7 +1,9 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -90,8 +92,6 @@ public class Contact extends ScrollView {
         cancel = findViewById(R.id.cancel);
         update = findViewById(R.id.update);
 
-
-
         edit = findViewById(R.id.edit_button);
         edit.setOnClickListener(v -> {
 
@@ -172,11 +172,30 @@ public class Contact extends ScrollView {
 
         takePicture.setOnClickListener(v -> {
 
-            // use an interfact that delegated to the AppActivity to take the picture as it must be done from the Activity object
-            ((pictureMethods)getContext()).onPictureTaken(mImageView);
+            // set up the options for the alert
+            CharSequence pictureOptions[] = new CharSequence[] { "Camera", "Photo Library"};
 
+            // create an alert dialogue
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setTitle("Choose to get get a picture from");
+            builder.setItems(pictureOptions, (dialog, which) -> {
+                switch (which) {
+
+                    // which is which pictureOption item
+                    case 0:
+                        // use an interfact that delegated to the AppActivity to take the picture as it must be done from the Activity object
+                        ((pictureMethods)getContext()).onPictureTaken(mImageView);
+                        break;
+                    case 1:
+                        ((pictureMethods)getContext()).onChoosePictureFromGallery(mImageView);
+                        break;
+                    default:
+                        break;
+                }
+            });
+            // make sure you show the builder.
+            builder.show();
         });
-
     }
 
 
@@ -204,7 +223,7 @@ public class Contact extends ScrollView {
                 imageViewValue.setImageBitmap(mContactModel.getImage());
             }
         } else {
-            // set the defaul image to the imageViewValue
+            // set the default image to the imageViewValue
             ((pictureMethods)getContext()).getDefaultImage(imageViewValue);
         }
 
@@ -319,5 +338,6 @@ public class Contact extends ScrollView {
     public interface pictureMethods {
          void onPictureTaken(ImageView imageView);
          void getDefaultImage(ImageView imageView);
+         void onChoosePictureFromGallery(ImageView imageView);
     }
 }

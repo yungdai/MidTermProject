@@ -4,6 +4,7 @@ package com.cibc.ydai.midtermproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
@@ -30,12 +31,22 @@ public class AppActivity extends AppCompatActivity implements Contact.pictureMet
 
     // Set intent key for the camera request
     private static final int CAMERA_REQUEST = 10000;
+    private static final int GALLERY_REQUEST = 10001;
     private ImageView mImageView;
 
     public void onPictureTaken(ImageView imageView) {
+
         mImageView = imageView;
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    }
+
+    public void onChoosePictureFromGallery(ImageView imageView) {
+
+        mImageView = imageView;
+        Intent choosePhotoIntent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(choosePhotoIntent, GALLERY_REQUEST);
     }
 
     public void getDefaultImage(ImageView imageView) {
@@ -49,6 +60,13 @@ public class AppActivity extends AppCompatActivity implements Contact.pictureMet
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             mImageView.setImageBitmap(photo);
+        }
+
+        if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
+
+            // take the data and set it to a selected image
+            Uri selectedImage = data.getData();
+            mImageView.setImageURI(selectedImage);
         }
     }
 }
