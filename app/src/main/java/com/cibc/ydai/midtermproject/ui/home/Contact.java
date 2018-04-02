@@ -22,6 +22,7 @@ import com.cibc.ydai.midtermproject.ui.home.events.OnContactUpdatedEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+
 /**
  * Created by yungdai on 2018-03-12.
  */
@@ -114,7 +115,11 @@ public class Contact extends ScrollView {
         firstName.setOnFocusChangeListener(
                 (v, hasFocus) -> {
                     if (!hasFocus) {
-                        Utilities.capitaliseFirtCharacterIn(firstName);
+
+                        if (!firstName.getText().toString().isEmpty()) {
+                            Utilities.capitaliseFirtCharacterIn(firstName);
+                        }
+
                     }
                 }
         );
@@ -122,7 +127,9 @@ public class Contact extends ScrollView {
         lastName.setOnFocusChangeListener(
                 (v, hasFocus) -> {
                     if (!hasFocus) {
-                        Utilities.capitaliseFirtCharacterIn(firstName);
+                        if (!lastName.getText().toString().isEmpty()) {
+                            Utilities.capitaliseFirtCharacterIn(lastName);
+                        }
                     }
                 }
         );
