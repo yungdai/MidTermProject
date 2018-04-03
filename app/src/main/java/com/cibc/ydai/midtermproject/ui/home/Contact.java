@@ -22,6 +22,9 @@ import com.cibc.ydai.midtermproject.ui.home.events.OnContactUpdatedEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 
 /**
  * Created by yungdai on 2018-03-12.
@@ -42,6 +45,8 @@ public class Contact extends ScrollView {
     private Button cancel;
     private Button update;
     private Button edit;
+
+    private TextView[] mTextViews = new TextView[] {firstName, lastName, phone, website};
 
     // the contact model that is passed or not passed in from the event bus
     private ContactModel mContactModel;
@@ -260,25 +265,13 @@ public class Contact extends ScrollView {
 
     private void setEditingOn() {
 
-        firstName.setFocusable(true);
-        firstName.setFocusableInTouchMode(true);
-        firstName.setClickable(true);
-
-        lastName.setFocusable(true);
-        lastName.setFocusableInTouchMode(true);
-        lastName.setClickable(true);
-
-        phone.setFocusable(true);
-        phone.setFocusableInTouchMode(true);
-        phone.setClickable(true);
-
-        website.setFocusable(true);
-        website.setFocusableInTouchMode(true);
-        website.setClickable(true);
-
-        mImageView.setFocusable(true);
-        mImageView.setFocusableInTouchMode(true);
-        mImageView.setClickable(true);
+        for (TextView textView: mTextViews) {
+            if (textView != null) {
+                textView.setFocusable(true);
+                textView.setFocusableInTouchMode(true);
+                textView.setClickable(true);
+            }
+        }
 
         takePicture.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.VISIBLE);
@@ -288,25 +281,13 @@ public class Contact extends ScrollView {
 
     private void setEdittingOff() {
 
-        firstName.setFocusable(false);
-        firstName.setFocusableInTouchMode(false);
-        firstName.setClickable(false);
-
-        lastName.setFocusable(false);
-        lastName.setFocusableInTouchMode(false);
-        lastName.setClickable(false);
-
-        phone.setFocusable(false);
-        phone.setFocusableInTouchMode(false);
-        phone.setClickable(false);
-
-        website.setFocusable(false);
-        website.setFocusableInTouchMode(false);
-        website.setClickable(false);
-
-        mImageView.setFocusable(false);
-        mImageView.setFocusableInTouchMode(false);
-        mImageView.setClickable(false);
+        for (TextView textView: mTextViews) {
+            if (textView != null) {
+                textView.setFocusable(false);
+                textView.setFocusableInTouchMode(false);
+                textView.setClickable(false);
+            }
+        }
 
         takePicture.setVisibility(View.INVISIBLE);
         cancel.setVisibility(View.INVISIBLE);
