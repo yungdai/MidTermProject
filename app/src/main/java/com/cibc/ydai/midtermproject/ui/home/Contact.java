@@ -1,19 +1,24 @@
 package com.cibc.ydai.midtermproject.ui.home;
 
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.cibc.ydai.midtermproject.R;
+import com.cibc.ydai.midtermproject.Utilities.AnimationUtilities;
 import com.cibc.ydai.midtermproject.Utilities.Utilities;
 import com.cibc.ydai.midtermproject.data.contact.ContactModel;
 import com.cibc.ydai.midtermproject.ui.home.events.OnContactEvent;
@@ -45,8 +50,7 @@ public class Contact extends ScrollView {
     private Button cancel;
     private Button update;
     private Button edit;
-
-    private TextView[] mTextViews = new TextView[] {firstName, lastName, phone, website};
+    private ConstraintLayout contactLayout;
 
     // the contact model that is passed or not passed in from the event bus
     private ContactModel mContactModel;
@@ -92,11 +96,16 @@ public class Contact extends ScrollView {
         cancel = findViewById(R.id.cancel);
         update = findViewById(R.id.update);
 
+        contactLayout = findViewById(R.id.contactLayout);
+
         edit = findViewById(R.id.edit_button);
         edit.setOnClickListener(v -> {
 
             toggleVisibility();
         });
+
+
+
 
         Button web = findViewById(R.id.web);
         web.setOnClickListener(v -> {
@@ -265,13 +274,26 @@ public class Contact extends ScrollView {
 
     private void setEditingOn() {
 
-        for (TextView textView: mTextViews) {
-            if (textView != null) {
-                textView.setFocusable(true);
-                textView.setFocusableInTouchMode(true);
-                textView.setClickable(true);
-            }
-        }
+        firstName.setFocusable(true);
+        firstName.setFocusableInTouchMode(true);
+        firstName.setClickable(true);
+
+        lastName.setFocusable(true);
+        lastName.setFocusableInTouchMode(true);
+        lastName.setClickable(true);
+
+        phone.setFocusable(true);
+        phone.setFocusableInTouchMode(true);
+        phone.setClickable(true);
+
+        website.setFocusable(true);
+        website.setFocusableInTouchMode(true);
+        website.setClickable(true);
+
+        mImageView.setFocusable(true);
+        mImageView.setFocusableInTouchMode(true);
+        mImageView.setClickable(true);
+
 
         takePicture.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.VISIBLE);
@@ -281,15 +303,27 @@ public class Contact extends ScrollView {
 
     private void setEdittingOff() {
 
-        for (TextView textView: mTextViews) {
-            if (textView != null) {
-                textView.setFocusable(false);
-                textView.setFocusableInTouchMode(false);
-                textView.setClickable(false);
-            }
-        }
+            firstName.setFocusable(false);
+            firstName.setFocusableInTouchMode(false);
+            firstName.setClickable(false);
 
-        takePicture.setVisibility(View.INVISIBLE);
+            lastName.setFocusable(false);
+            lastName.setFocusableInTouchMode(false);
+            lastName.setClickable(false);
+
+            phone.setFocusable(false);
+            phone.setFocusableInTouchMode(false);
+            phone.setClickable(false);
+
+            website.setFocusable(false);
+            website.setFocusableInTouchMode(false);
+            website.setClickable(false);
+
+            mImageView.setFocusable(false);
+            mImageView.setFocusableInTouchMode(false);
+            mImageView.setClickable(false);
+
+            takePicture.setVisibility(View.INVISIBLE);
         cancel.setVisibility(View.INVISIBLE);
         update.setVisibility(View.INVISIBLE);
         formTitle.setText("Contact");
@@ -318,6 +352,19 @@ public class Contact extends ScrollView {
         } else {
             edit.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void animateContainer(Float startValue, Float endValue) {
+
+
+
+        // animator setup
+        ObjectAnimator animator = new ObjectAnimator();
+
+        animator.ofFloat(contactLayout, "translationY", startValue, endValue);
+        animator.setDuration(500);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.start();
     }
     //endregion
 
